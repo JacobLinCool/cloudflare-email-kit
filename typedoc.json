@@ -1,0 +1,6 @@
+{
+	"entryPoints": ["packages/*"],
+	"name": "Cloudflare Email Kit",
+	"entryPointStrategy": "packages",
+	"includeVersion": true
+}
