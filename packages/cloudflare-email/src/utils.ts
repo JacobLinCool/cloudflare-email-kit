@@ -1,16 +1,14 @@
-import type { ForwardableEmailMessage } from "@cloudflare/workers-types";
-// @ts-expect-error cloudflare types
-import { EmailMessage } from "cloudflare:email";
+import type { EnhancedMessage } from "cloudflare-email-kit";
+import debug from "debug";
 import type { MIMEMessage } from "mimetext";
 import { createMimeMessage } from "mimetext";
-import { ReplyMessage } from "./types";
 
 /**
- * Creates a reply message based on the given {@link ForwardableEmailMessage}.
+ * Creates a reply message based on the given message.
  * @param message - The message to reply to.
  * @returns The created reply message.
  */
-export function respond(message: ForwardableEmailMessage): ReplyMessage {
+export function respond(message: EnhancedMessage): MIMEMessage {
 	const msg = createMimeMessage();
 
 	msg.setHeader("In-Reply-To", message.headers.get("Message-ID"));
@@ -24,8 +22,7 @@ export function respond(message: ForwardableEmailMessage): ReplyMessage {
 		);
 	}
 
-	const build = () => new EmailMessage(message.to, message.from, msg.asRaw());
-	return Object.assign(msg, { build });
+	return msg;
 }
 
 /**
@@ -43,6 +40,7 @@ export function ab2b64(buffer: ArrayBuffer) {
  * @throws An error if there are no recipients or sender found, or if the API request fails.
  */
 export async function mailchannels(message: MIMEMessage): Promise<void> {
+	const log = debug("mailchannels");
 	let recipients = message.getRecipients();
 	if (!recipients) {
 		throw new Error("No recipients found.");
@@ -135,7 +133,7 @@ export async function mailchannels(message: MIMEMessage): Promise<void> {
 		subject: message.getSubject() || "",
 		content,
 	};
-	console.log(JSON.stringify(payload, null, 2));
+	log(payload);
 
 	const req = new Request("https://api.mailchannels.net/tx/v1/send", {
 		method: "POST",
@@ -149,4 +147,6 @@ export async function mailchannels(message: MIMEMessage): Promise<void> {
 	if (!res.ok) {
 		throw new Error(`Failed to send email: ${res.status} ${await res.text()}`);
 	}
+
+	log("Email sent successfully.");
 }

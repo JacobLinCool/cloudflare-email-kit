@@ -26,6 +26,7 @@
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.20231025.0",
+		"@types/debug": "^4.1.10",
 		"tsup": "^7.2.0",
 		"typedoc": "^0.25.3",
 		"typescript": "^5.2.2",
@@ -34,6 +35,7 @@
 	"dependencies": {
 		"cloudflare-email-kit": "workspace:^",
 		"cloudflare-email-router": "workspace:^",
+		"debug": "^4.3.4",
 		"mimetext": "^3.0.16"
 	},
 	"repository": {

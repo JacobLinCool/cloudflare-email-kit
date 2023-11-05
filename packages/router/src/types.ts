@@ -1,5 +1,4 @@
-import type { ForwardableEmailMessage } from "@cloudflare/workers-types";
-import type { Middleware } from "cloudflare-email-kit";
+import type { EnhancedMessage, Middleware } from "cloudflare-email-kit";
 
 export interface EmailRouterConfig {
 	name: string;
@@ -8,13 +7,13 @@ export interface EmailRouterConfig {
 export type EmailMatcher =
 	| RegExp
 	| string
-	| ((message: ForwardableEmailMessage) => Promise<boolean> | boolean);
+	| ((message: EnhancedMessage) => Promise<boolean> | boolean);
 
-export type EmailHandler = (message: ForwardableEmailMessage) => Promise<void> | void;
+export type EmailHandler = (message: EnhancedMessage) => Promise<void> | void;
 
 export interface EmailRouteMatcher {
 	name: string;
-	match: (message: ForwardableEmailMessage) => Promise<boolean> | boolean;
+	match: (message: EnhancedMessage) => Promise<boolean> | boolean;
 }
 
 export type EmailRouteRule = EmailRouteMatcher & Middleware;

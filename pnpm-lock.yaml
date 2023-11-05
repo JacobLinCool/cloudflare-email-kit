@@ -58,15 +58,52 @@ importers:
             cloudflare-email:
                 specifier: workspace:^
                 version: link:../../packages/cloudflare-email
+            cloudflare-email-backup:
+                specifier: workspace:^
+                version: link:../../packages/backup
+            debug:
+                specifier: ^4.3.4
+                version: 4.3.4
         devDependencies:
             "@cloudflare/workers-types":
                 specifier: ^4.20231025.0
                 version: 4.20231025.0
+            "@types/debug":
+                specifier: ^4.1.10
+                version: 4.1.10
             typescript:
                 specifier: ^5.0.4
                 version: 5.2.2
             wrangler:
                 specifier: ^3.0.0
+                version: 3.15.0
+
+    packages/backup:
+        dependencies:
+            cloudflare-email-kit:
+                specifier: workspace:^
+                version: link:../kit
+            debug:
+                specifier: ^4.3.4
+                version: 4.3.4
+        devDependencies:
+            "@cloudflare/workers-types":
+                specifier: ^4.20231025.0
+                version: 4.20231025.0
+            "@types/debug":
+                specifier: ^4.1.10
+                version: 4.1.10
+            tsup:
+                specifier: ^7.2.0
+                version: 7.2.0(typescript@5.2.2)
+            typedoc:
+                specifier: ^0.25.3
+                version: 0.25.3(typescript@5.2.2)
+            typescript:
+                specifier: ^5.2.2
+                version: 5.2.2
+            wrangler:
+                specifier: ^3.15.0
                 version: 3.15.0
 
     packages/cloudflare-email:
@@ -77,6 +114,9 @@ importers:
             cloudflare-email-router:
                 specifier: workspace:^
                 version: link:../router
+            debug:
+                specifier: ^4.3.4
+                version: 4.3.4
             mimetext:
                 specifier: ^3.0.16
                 version: 3.0.16
@@ -84,6 +124,9 @@ importers:
             "@cloudflare/workers-types":
                 specifier: ^4.20231025.0
                 version: 4.20231025.0
+            "@types/debug":
+                specifier: ^4.1.10
+                version: 4.1.10
             tsup:
                 specifier: ^7.2.0
                 version: 7.2.0(typescript@5.2.2)
@@ -102,6 +145,9 @@ importers:
             "@cloudflare/workers-types":
                 specifier: ^4.20231025.0
                 version: 4.20231025.0
+            mimetext:
+                specifier: ^3.0.16
+                version: 3.0.16
             tsup:
                 specifier: ^7.2.0
                 version: 7.2.0(typescript@5.2.2)
@@ -188,7 +234,6 @@ packages:
         dependencies:
             core-js-pure: 3.33.2
             regenerator-runtime: 0.14.0
-        dev: false
 
     /@babel/runtime@7.20.13:
         resolution:
@@ -1241,21 +1286,18 @@ packages:
                 integrity: sha512-JzoZ0h299JRLPfV5VBsMq1TuMy+OmU9bdV/7NcjfRojL0eIcA1k5ESrtjWrDwJRJnk9B0QmgR0rq04LERbdfWw==,
             }
         deprecated: this package has been deprecated
-        dev: false
 
     /@tsconfig/node18@2.0.1:
         resolution:
             {
                 integrity: sha512-UqdfvuJK0SArA2CxhKWwwAWfnVSXiYe63bVpMutc27vpngCntGUZQETO24pEJ46zU6XM+7SpqYoMgcO3bM11Ew==,
             }
-        dev: false
 
     /@tsconfig/strictest@2.0.2:
         resolution:
             {
                 integrity: sha512-jt4jIsWKvUvuY6adJnQJlb/UR7DdjC8CjHI/OaSQruj2yX9/K6+KOvDt/vD6udqos/FUk5Op66CvYT7TBLYO5Q==,
             }
-        dev: false
 
     /@types/chai-subset@1.3.3:
         resolution:
@@ -1271,6 +1313,15 @@ packages:
             {
                 integrity: sha512-mEo1sAde+UCE6b2hxn332f1g1E8WfYRu6p5SvTKr2ZKC1f7gFJXk4h5PyGP9Dt6gCaG8y8XhwnXWC6Iy2cmBng==,
             }
+        dev: true
+
+    /@types/debug@4.1.10:
+        resolution:
+            {
+                integrity: sha512-tOSCru6s732pofZ+sMv9o4o3Zc+Sa8l3bxd/tweTQudFn06vAzb13ZX46Zi6m6EJ+RUbRTHvgQJ1gBtSgkaUYA==,
+            }
+        dependencies:
+            "@types/ms": 0.7.33
         dev: true
 
     /@types/is-ci@3.0.0:
@@ -1293,6 +1344,13 @@ packages:
         resolution:
             {
                 integrity: sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==,
+            }
+        dev: true
+
+    /@types/ms@0.7.33:
+        resolution:
+            {
+                integrity: sha512-AuHIyzR5Hea7ij0P9q7vx7xu4z0C28ucwjAZC0ja7JhINyCnOw8/DnvAPQQ9TfOlCtZAmCERKQX9+o1mgQhuOQ==,
             }
         dev: true
 
@@ -2128,7 +2186,6 @@ packages:
                 integrity: sha512-a8zeCdyVk7uF2elKIGz67AjcXOxjRbwOLz8SbklEso1V+2DoW4OkAMZN9S9GBgvZIaqQi/OemFX4OiSoQEmg1Q==,
             }
         requiresBuild: true
-        dev: false
 
     /cross-spawn@5.1.0:
         resolution:
@@ -2228,7 +2285,6 @@ packages:
                 optional: true
         dependencies:
             ms: 2.1.2
-        dev: true
 
     /decamelize-keys@1.1.1:
         resolution:
@@ -3462,7 +3518,6 @@ packages:
             {
                 integrity: sha512-3MEt5DTINKqfScXKfJFrRbxkrnk2AxPWGBL/ycjz4dK8iqiSJ06UxD8jh8xuh6p10TX4t2+7FsBYVxxQbMg+qA==,
             }
-        dev: false
 
     /js-tokens@4.0.0:
         resolution:
@@ -3850,7 +3905,6 @@ packages:
             "@types/node": 20.8.10
             js-base64: 3.7.5
             mime-types: 2.1.35
-        dev: false
 
     /mimic-fn@2.1.0:
         resolution:
@@ -3979,7 +4033,6 @@ packages:
             {
                 integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==,
             }
-        dev: true
 
     /mustache@4.2.0:
         resolution:
@@ -4636,7 +4689,6 @@ packages:
             {
                 integrity: sha512-srw17NI0TUWHuGa5CFGGmhfNIeja30WMBfbslPNhf6JrqQlLN5gcrvig1oqPxiVaXb0oW0XRKtH6Nngs5lKCIA==,
             }
-        dev: false
 
     /regexp.prototype.flags@1.4.3:
         resolution:

@@ -1,5 +1,4 @@
-import type { ForwardableEmailMessage } from "@cloudflare/workers-types";
-import type { Context, Middleware } from "cloudflare-email-kit";
+import type { Context, EnhancedMessage, Middleware } from "cloudflare-email-kit";
 import type {
 	EmailHandler,
 	EmailMatcher,
@@ -24,7 +23,7 @@ export class EmailRouter implements Middleware {
 	 * @param message The email message to match against the rules.
 	 * @returns The first matching rule or null if no rule matches the message.
 	 */
-	public async checkout(message: ForwardableEmailMessage): Promise<EmailRouteRule | null> {
+	public async checkout(message: EnhancedMessage): Promise<EmailRouteRule | null> {
 		for (const rule of this.rules) {
 			const matched = await rule.match(message);
 			if (matched) {
@@ -74,12 +73,11 @@ export class EmailRouter implements Middleware {
 
 		if (typeof matcher === "string") {
 			name = matcher;
-			matcher = (message: ForwardableEmailMessage) =>
-				new RegExp(`^${matcher}$`).test(message.to);
+			matcher = (message: EnhancedMessage) => new RegExp(`^${matcher}$`).test(message.to);
 		} else if (matcher instanceof RegExp) {
 			const regex = matcher;
 			name = regex.source;
-			matcher = (message: ForwardableEmailMessage) => regex.test(message.to);
+			matcher = (message: EnhancedMessage) => regex.test(message.to);
 		} else if (typeof matcher === "function") {
 			name = matcher.name;
 		}
@@ -88,7 +86,7 @@ export class EmailRouter implements Middleware {
 			const precondition = matcher;
 			const subrouter = handler_subrouter;
 			name = `${name} (${subrouter.config.name})`;
-			matcher = async (message: ForwardableEmailMessage) => {
+			matcher = async (message: EnhancedMessage) => {
 				if (await precondition(message)) {
 					return subrouter.checkout(message) !== null;
 				}
