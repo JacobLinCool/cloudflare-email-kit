@@ -11,7 +11,7 @@ export class Backup implements Middleware {
 		return "Backup";
 	}
 
-	async handle(ctx: Context, next: () => Promise<void>): Promise<void> {
+	public async handle(ctx: Context, next: () => Promise<void>): Promise<void> {
 		await this.save(
 			ctx.message.headers.get("Message-ID"),
 			ctx.message.from,
@@ -36,15 +36,21 @@ export class Backup implements Middleware {
 		await next();
 	}
 
-	async save(
+	/**
+	 * Saves an email message to the backup storage.
+	 * @param message_id - The ID of the message to save. If null or undefined, a new ID will be generated.
+	 * @param from - The email address of the sender.
+	 * @param to - The email address of the recipient.
+	 * @param body - The body of the email message.
+	 */
+	public async save(
 		message_id: string | null | undefined,
 		from: string,
 		to: string,
 		body: Uint8Array | string,
 	) {
-		const [user, domain] = from.split("@");
 		const id = message_id || `noid-${Date.now()}-${Math.random().toString(36).slice(2)}`;
-		const key = `${this.config.prefix}/${domain}/${user}/${id}.eml`;
+		const key = this.key(id, from, to);
 
 		const metadata = {
 			from,
@@ -67,5 +73,18 @@ export class Backup implements Middleware {
 				.bind(id, metadata.from, metadata.to, key)
 				.run();
 		}
+	}
+
+	/**
+	 * Generates a key for storing the email message.
+	 * @param message_id - The ID of the email message.
+	 * @param from - The email address of the sender.
+	 * @param to - The email address of the recipient.
+	 * @returns A string representing the unique key for the email message.
+	 */
+	public key(message_id: string, from: string, to: string): string {
+		const [user, domain] = from.split("@");
+		const key = `${this.config.prefix}/${domain}/${user}/${message_id}.eml`;
+		return key;
 	}
 }

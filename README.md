@@ -121,3 +121,14 @@ async function fallback_handler(message: EnhancedMessage): Promise<void> {
     await message.reply(msg);
 }
 ```
+
+> Initialize D1
+>
+> ```sql
+> CREATE TABLE `emails` (
+>     `id` TEXT PRIMARY KEY NOT NULL,
+>     `from` TEXT NOT NULL,
+>     `to` TEXT NOT NULL,
+>     `key` TEXT
+> );
+> ```
