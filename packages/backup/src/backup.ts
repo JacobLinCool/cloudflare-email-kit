@@ -87,4 +87,26 @@ export class Backup implements Middleware {
 		const key = `${this.config.prefix}/${domain}/${user}/${message_id}.eml`;
 		return key;
 	}
+
+	/**
+	 * Retrieves a raw message from the bucket.
+	 * @param message_id - The ID of the message to retrieve.
+	 * @param from - The sender of the message.
+	 * @param to - The recipient of the message.
+	 * @returns A function that returns the raw message as an ArrayBuffer, or null if the message was not found.
+	 */
+	public async retrieve(
+		message_id: string,
+		from: string,
+		to: string,
+	): Promise<(() => Promise<ArrayBuffer>) | null> {
+		const key = this.key(message_id, from, to);
+
+		const obj = await this.config.bucket.get(key);
+		if (!obj) {
+			return null;
+		}
+
+		return () => obj.arrayBuffer();
+	}
 }
