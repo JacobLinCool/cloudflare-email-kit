@@ -21,7 +21,7 @@ export interface EnhancedMessage extends EmailMessage {
 	 * Reject this email message by returning a permanent SMTP error back to the connecting client including the given reason.
 	 * @param reason The reject reason.
 	 */
-	reject(reason: string): void;
+	reject?(reason: string): void;
 
 	/**
 	 * Forward this email message to a verified destination address of the account.

@@ -52,8 +52,9 @@ export class EmailKit extends EmailKitCore {
 				reject: message.setReject.bind(message),
 				forward: message.forward.bind(message),
 				reply: (mime: MIMEMessage) => {
+					const msg = new EmailMessage(message.to, message.from, mime.asRaw());
 					// @ts-expect-error reply not yet typed
-					return message.reply(new EmailMessage(message.to, message.from, mime.asRaw()));
+					return message.reply(msg);
 				},
 			},
 		};
