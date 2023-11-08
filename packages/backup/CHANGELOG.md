@@ -1,5 +1,12 @@
 # cloudflare-email-backup
 
+## 0.0.2
+
+### Patch Changes
+
+-   Updated dependencies [[`49d47bc`](https://github.com/JacobLinCool/cloudflare-email-kit/commit/49d47bc4c4b148991b9ff0e5641e086249b3f90a)]:
+    -   cloudflare-email-kit@0.0.3
+
 ## 0.0.1
 
 ### Patch Changes
