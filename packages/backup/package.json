@@ -1,7 +1,7 @@
 {
 	"name": "cloudflare-email-backup",
 	"description": "Backup incoming and outgoing emails with Cloudflare R2 and D1.",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"author": "JacobLinCool <jacoblincool@gmail.com> (https://jacoblin.cool)",
 	"license": "MIT",
 	"keywords": [

@@ -1,5 +1,15 @@
 # cloudflare-email-queue
 
+## 0.0.2
+
+### Patch Changes
+
+-   [`49d47bc`](https://github.com/JacobLinCool/cloudflare-email-kit/commit/49d47bc4c4b148991b9ff0e5641e086249b3f90a) Thanks [@JacobLinCool](https://github.com/JacobLinCool)! - Add `.isAuto` method to `EnhancedMessage`
+
+-   Updated dependencies [[`49d47bc`](https://github.com/JacobLinCool/cloudflare-email-kit/commit/49d47bc4c4b148991b9ff0e5641e086249b3f90a)]:
+    -   cloudflare-email-kit@0.0.3
+    -   cloudflare-email@0.0.3
+
 ## 0.0.1
 
 ### Patch Changes
