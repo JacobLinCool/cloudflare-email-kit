@@ -7,6 +7,7 @@ Easily handle incoming and outgoing emails on Cloudflare Workers.
 - Middleware system for processing emails
 - Router for advanced email routing
 - Save emails to R2 Object Storage and D1 Database
+- Integration with Cloudflare Queues to shift email processing workloads
 - Utilities for sending emails
 
 ## Example
