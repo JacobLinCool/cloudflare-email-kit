@@ -1,0 +1,52 @@
+{
+	"name": "cloudflare-email-queue",
+	"description": "Integrate EmailKit with Cloudflare Queues for Efficient Email Handling at Scale.",
+	"version": "0.0.0",
+	"author": "JacobLinCool <jacoblincool@gmail.com> (https://jacoblin.cool)",
+	"license": "MIT",
+	"keywords": [
+		"cloudflare",
+		"workers",
+		"email",
+		"serverless",
+		"cloudflare-workers",
+		"cloudflare-queues",
+		"email-handling",
+		"email-service",
+		"developer-tools"
+	],
+	"type": "module",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "tsup",
+		"build:docs": "typedoc --out docs src"
+	},
+	"dependencies": {
+		"cloudflare-email-kit": "workspace:^",
+		"cloudflare-email-mailchannels": "workspace:^",
+		"debug": "^4.3.4"
+	},
+	"devDependencies": {
+		"@cloudflare/workers-types": "^4.20231025.0",
+		"@types/debug": "^4.1.10",
+		"tsup": "^7.2.0",
+		"typedoc": "^0.25.3",
+		"typescript": "^5.2.2",
+		"wrangler": "^3.15.0"
+	},
+	"peerDependencies": {
+		"cloudflare-email": "*"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/JacobLinCool/cloudflare-email-kit.git"
+	},
+	"bugs": {
+		"url": "https://github.com/JacobLinCool/cloudflare-email-kit/issues"
+	},
+	"homepage": "https://jacoblincool.github.io/cloudflare-email-kit"
+}
