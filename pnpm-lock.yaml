@@ -86,6 +86,9 @@ importers:
             cloudflare-email:
                 specifier: workspace:^
                 version: link:../../packages/cloudflare-email
+            cloudflare-email-backup:
+                specifier: workspace:^
+                version: link:../../packages/backup
             debug:
                 specifier: ^4.3.4
                 version: 4.3.4

@@ -8,6 +8,7 @@
 	},
 	"dependencies": {
 		"cloudflare-email": "workspace:^",
+		"cloudflare-email-backup": "workspace:^",
 		"debug": "^4.3.4"
 	},
 	"devDependencies": {
