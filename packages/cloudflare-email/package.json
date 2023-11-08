@@ -1,7 +1,7 @@
 {
 	"name": "cloudflare-email",
 	"description": "Easily handle incoming and outgoing emails on Cloudflare Workers.",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"author": "JacobLinCool <jacoblincool@gmail.com> (https://jacoblin.cool)",
 	"license": "MIT",
 	"keywords": [

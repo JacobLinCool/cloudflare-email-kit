@@ -1,5 +1,14 @@
 # cloudflare-email-backup
 
+## 0.0.3
+
+### Patch Changes
+
+-   [`0d9852a`](https://github.com/JacobLinCool/cloudflare-email-kit/commit/0d9852aff890d6c2eedf8979c802282bcff6660a) Thanks [@JacobLinCool](https://github.com/JacobLinCool)! - When message id is conflicted in D1 due to retry, ignore it
+
+-   Updated dependencies [[`8b7ead1`](https://github.com/JacobLinCool/cloudflare-email-kit/commit/8b7ead1f58a374c6221210af98395729a15ddf3f)]:
+    -   cloudflare-email-kit@0.0.4
+
 ## 0.0.2
 
 ### Patch Changes

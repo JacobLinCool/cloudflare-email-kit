@@ -1,5 +1,11 @@
 # cloudflare-email-kit
 
+## 0.0.4
+
+### Patch Changes
+
+-   [`8b7ead1`](https://github.com/JacobLinCool/cloudflare-email-kit/commit/8b7ead1f58a374c6221210af98395729a15ddf3f) Thanks [@JacobLinCool](https://github.com/JacobLinCool)! - Add middleware context modifier for chaining usage
+
 ## 0.0.3
 
 ### Patch Changes
