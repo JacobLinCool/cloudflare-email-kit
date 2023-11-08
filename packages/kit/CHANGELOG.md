@@ -1,5 +1,11 @@
 # cloudflare-email-kit
 
+## 0.0.2
+
+### Patch Changes
+
+-   [`eb3b179`](https://github.com/JacobLinCool/cloudflare-email-kit/commit/eb3b1792e41fe12af188635724170a5a4fbb5995) Thanks [@JacobLinCool](https://github.com/JacobLinCool)! - `reject` method may not support in some async context (e.g. Cloudflare Queues)
+
 ## 0.0.1
 
 ### Patch Changes
