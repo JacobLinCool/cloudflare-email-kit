@@ -1,5 +1,12 @@
 # cloudflare-email
 
+## 0.0.5
+
+### Patch Changes
+
+-   Updated dependencies [[`b60f01c`](https://github.com/JacobLinCool/cloudflare-email-kit/commit/b60f01c9bb23ec8120c0e7fc43163ffc8640d776)]:
+    -   cloudflare-email-router@0.0.5
+
 ## 0.0.4
 
 ### Patch Changes
