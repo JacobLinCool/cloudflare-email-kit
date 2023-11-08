@@ -1,13 +1,13 @@
 import { ForwardableEmailMessage, ReadableStream } from "@cloudflare/workers-types";
 import { MIMEMessage } from "mimetext";
-import { Context, Middleware } from "./types";
-// @ts-expect-error cloudflare types
-import { EmailMessage } from "cloudflare:email";
+import { Context, Middleware, MiddlewareOutput } from "./types";
 
-export class EmailKitCore {
+export class EmailKitCore<Last extends Context> {
 	protected middlewares: Middleware[] = [];
 
-	use(middleware: Middleware): this {
+	use<M extends Middleware<Context, any>>(
+		middleware: M extends Middleware<infer In> ? (Last extends In ? M : never) : never,
+	): EmailKitCore<Last & MiddlewareOutput<M>> {
 		this.middlewares.push(middleware);
 		return this;
 	}
@@ -33,7 +33,14 @@ export class EmailKitCore {
 	}
 }
 
-export class EmailKit extends EmailKitCore {
+export class EmailKit<Last extends Context> extends EmailKitCore<Last> {
+	use<M extends Middleware<Context, any>>(
+		middleware: M extends Middleware<infer In> ? (Last extends In ? M : never) : never,
+	): EmailKit<Last & MiddlewareOutput<M>> {
+		super.use(middleware);
+		return this;
+	}
+
 	async process(message: ForwardableEmailMessage) {
 		let _raw: Promise<Uint8Array> | undefined;
 
@@ -51,7 +58,9 @@ export class EmailKit extends EmailKitCore {
 				to: message.to,
 				reject: message.setReject.bind(message),
 				forward: message.forward.bind(message),
-				reply: (mime: MIMEMessage) => {
+				reply: async (mime: MIMEMessage) => {
+					// @ts-expect-error cloudflare types
+					const { EmailMessage } = await import("cloudflare:email");
 					const msg = new EmailMessage(message.to, message.from, mime.asRaw());
 					// @ts-expect-error reply not yet typed
 					return message.reply(msg);

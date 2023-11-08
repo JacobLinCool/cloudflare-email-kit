@@ -49,7 +49,14 @@ export interface Context {
 	message: EnhancedMessage;
 }
 
-export interface Middleware<C extends Context = Context> {
+export interface Middleware<In extends Context = Context, Out extends Context = In> {
 	name: string;
-	handle(ctx: C, next: () => Promise<void>): Promise<void> | void;
+	handle(
+		ctx: In,
+		next: In extends Out ? () => Promise<void> : (ctx: Out) => Promise<void>,
+	): Promise<void> | void;
 }
+
+export type MiddlewareOutput<M extends Middleware> = M extends Middleware<Context, infer Out>
+	? Out
+	: never;
