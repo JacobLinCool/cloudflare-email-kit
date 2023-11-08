@@ -59,8 +59,8 @@ export class EmailRouter implements Middleware {
 	/**
 	 * Adds a new route rule to the router's list of rules.
 	 * The first added rule will be checked first.
-	 * @param matcher The matcher to use for this rule.
-	 * @param handler The handler to use for this rule.
+	 * @param matcher The matcher to use for this rule. Can be a string, a regular expression, or a function.
+	 * @param handler The handler to use for this rule. Can be a function handler or a middleware.
 	 * @returns The router itself.
 	 */
 	public match(matcher: EmailMatcher, handler: EmailHandler | Middleware): this;
