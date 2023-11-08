@@ -7,5 +7,5 @@
 	"access": "public",
 	"baseBranch": "main",
 	"updateInternalDependencies": "patch",
-	"ignore": ["example-cloudflare-queues", "example-router"]
+	"ignore": ["example-cloudflare-queues", "example-parser", "example-router"]
 }

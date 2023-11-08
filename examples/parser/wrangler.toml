@@ -1,0 +1,7 @@
+name = "email-parser-example"
+main = "src/index.ts"
+compatibility_date = "2023-10-30"
+
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "email-kit-example"

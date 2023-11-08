@@ -81,6 +81,31 @@ importers:
                 specifier: ^3.0.0
                 version: 3.15.0
 
+    examples/parser:
+        dependencies:
+            cloudflare-email:
+                specifier: workspace:^
+                version: link:../../packages/cloudflare-email
+            cloudflare-email-parser:
+                specifier: workspace:^
+                version: link:../../packages/parser
+            debug:
+                specifier: ^4.3.4
+                version: 4.3.4
+        devDependencies:
+            "@cloudflare/workers-types":
+                specifier: ^4.20231025.0
+                version: 4.20231025.0
+            "@types/debug":
+                specifier: ^4.1.10
+                version: 4.1.10
+            typescript:
+                specifier: ^5.0.4
+                version: 5.2.2
+            wrangler:
+                specifier: ^3.0.0
+                version: 3.15.0
+
     examples/router:
         dependencies:
             cloudflare-email:
@@ -200,6 +225,37 @@ importers:
             mimetext:
                 specifier: ^3.0.0
                 version: 3.0.16
+        devDependencies:
+            "@cloudflare/workers-types":
+                specifier: ^4.20231025.0
+                version: 4.20231025.0
+            "@types/debug":
+                specifier: ^4.1.10
+                version: 4.1.10
+            tsup:
+                specifier: ^7.2.0
+                version: 7.2.0(typescript@5.2.2)
+            typedoc:
+                specifier: ^0.25.3
+                version: 0.25.3(typescript@5.2.2)
+            typescript:
+                specifier: ^5.2.2
+                version: 5.2.2
+            wrangler:
+                specifier: ^3.15.0
+                version: 3.15.0
+
+    packages/parser:
+        dependencies:
+            cloudflare-email-kit:
+                specifier: workspace:^
+                version: link:../kit
+            debug:
+                specifier: ^4.3.4
+                version: 4.3.4
+            postal-mime:
+                specifier: ^2.0.1
+                version: 2.0.1
         devDependencies:
             "@cloudflare/workers-types":
                 specifier: ^4.20231025.0
@@ -4545,6 +4601,13 @@ packages:
             mlly: 1.4.1
             pathe: 1.1.1
         dev: true
+
+    /postal-mime@2.0.1:
+        resolution:
+            {
+                integrity: sha512-ZsPbRsHlMv6ODJ99hCCZJf6BX0b3zZMX3Ydun8xPOKtkeDieaTxH6aPx6o3tkOYausufWiXPa/npdSuQjWsLwA==,
+            }
+        dev: false
 
     /postcss-load-config@4.0.1:
         resolution:
