@@ -15,7 +15,7 @@ Easily handle incoming and outgoing emails on Cloudflare Workers.
 See [examples/router](examples/router/).
 
 ```ts
-import { CATCH_ALL, EmailKit, EmailRouter, REJECT_ALL, SizeGuard, ab2str, createMimeMessage, mailchannels, respond } from "cloudflare-email";
+import { CATCH_ALL, EmailKit, EmailRouter, REJECT_ALL, SizeGuard, respond } from "cloudflare-email";
 import { Backup } from "cloudflare-email-backup";
 
 export interface Env {
@@ -30,22 +30,7 @@ export default {
             // handle auto-sent emails
             .match(
                 (m) => m.isAuto(),
-                async (m) => {
-                    const notification = createMimeMessage();
-                    notification.setSender("admin@test.csie.cool");
-                    notification.setRecipient(env.NOTIFICATION_EMAIL);
-                    notification.setSubject(`Received an auto-generated email from ${m.from}`);
-                    notification.addMessage({
-                        contentType: "text/plain",
-                        data: `Received an auto-generated email from ${m.from} to ${m.to}, as the attachment shows.`,
-                    });
-                    notification.addAttachment({
-                        contentType: "message/rfc822",
-                        data: await m.raw().then((typed) => ab2str(typed.buffer)),
-                        filename: "original.eml",
-                    });
-                    await mailchannels(notification);
-                },
+                (m) => m.forward(env.NOTIFICATION_EMAIL),
             )
             // use a sub-router to handle subdomain emails
             .match(
