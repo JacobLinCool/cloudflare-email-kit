@@ -1,5 +1,11 @@
 # cloudflare-email-router
 
+## 0.0.5
+
+### Patch Changes
+
+-   [`b60f01c`](https://github.com/JacobLinCool/cloudflare-email-kit/commit/b60f01c9bb23ec8120c0e7fc43163ffc8640d776) Thanks [@JacobLinCool](https://github.com/JacobLinCool)! - EmailRouter is now accepting an optional type argument as the input context
+
 ## 0.0.4
 
 ### Patch Changes
