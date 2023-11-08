@@ -28,6 +28,10 @@ Navigate the complexities of email routing with customizable rules and actions.
 
 See [examples/router](examples/router/).
 
+<details>
+
+<summary>See the example code</summary>
+
 ```ts
 import { CATCH_ALL, EmailKit, EmailRouter, REJECT_ALL, SizeGuard, respond } from "cloudflare-email";
 import { Backup } from "cloudflare-email-backup";
@@ -98,11 +102,17 @@ export default {
 };
 ```
 
+</details>
+
 ### Parser
 
 Effortlessly parse and interact with email content and attachments.
 
 See [examples/parser](examples/parser/).
+
+<details>
+
+<summary>See the example code</summary>
 
 ```ts
 import { EmailKit, SizeGuard, respond } from "cloudflare-email";
@@ -144,11 +154,17 @@ export default {
 };
 ```
 
+</details>
+
 ### Cloudflare Queues
 
 Leverage Cloudflare Queues to get more CPU time (15 minutes instead of 30 seconds) to process emails.
 
 See [examples/cloudflare-queues](examples/cloudflare-queues/).
+
+<details>
+
+<summary>See the example code</summary>
 
 ```ts
 import { EmailKit, EmailRouter, SizeGuard, respond } from "cloudflare-email";
@@ -246,6 +262,8 @@ export default {
     },
 };
 ```
+
+</details>
 
 ## Documentation
 
