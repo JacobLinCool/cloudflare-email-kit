@@ -1,18 +1,30 @@
 # Cloudflare Email Kit
 
-Easily handle incoming and outgoing emails on Cloudflare Workers.
+The Cloudflare Email Kit is a powerful toolkit designed to handle both incoming and outgoing emails with ease on Cloudflare Workers. It emphasizes ease of use and composability, providing developers with a modular approach to integrating email functionalities within their serverless applications.
 
 ## Features
 
-- Middleware system for processing emails
-- Router for advanced email routing
-- Save emails to R2 Object Storage and D1 Database
-- Integration with Cloudflare Queues to shift email processing workloads
-- Utilities for sending emails
+- **User-Friendly Middleware:** Employ an intuitive middleware system that streamlines email processing.
+- **Composable Routing:** Craft complex email handling logic with a highly composable EmailRouter.
+- **Cloudflare Integrations:** Store emails effortlessly with Cloudflare’s R2 Object Storage and D1 Database support.
+- **Workload Management:** Utilize Cloudflare Queues to efficiently distribute email processing tasks.
+- **Email Utilities:** Simplify the art of parsing, crafting and sending emails with a set of convenient utilities.
+
+## Getting Started
+
+Begin using the Cloudflare Email Kit with a simple installation:
+
+```sh
+pnpm install cloudflare-email
+```
+
+> The `cloudflare-email` package contains the core functionalities of the Cloudflare Email Kit. For additional features, install the packages listed in the documentation.
 
 ## Examples
 
 ### Router
+
+Navigate the complexities of email routing with customizable rules and actions.
 
 See [examples/router](examples/router/).
 
@@ -88,6 +100,8 @@ export default {
 
 ### Parser
 
+Effortlessly parse and interact with email content and attachments.
+
 See [examples/parser](examples/parser/).
 
 ```ts
@@ -131,6 +145,8 @@ export default {
 ```
 
 ### Cloudflare Queues
+
+Leverage Cloudflare Queues to get more CPU time (15 minutes instead of 30 seconds) to process emails.
 
 See [examples/cloudflare-queues](examples/cloudflare-queues/).
 
@@ -230,3 +246,15 @@ export default {
     },
 };
 ```
+
+## Documentation
+
+Dive into the full potential of the Cloudflare Email Kit by visiting the [Documentation](https://jacoblincool.github.io/cloudflare-email-kit).
+
+## Join the Community
+
+We welcome your contributions! To collaborate, fork the repository and submit your pull requests.
+
+## Need Help?
+
+Encountered a snag? Have a suggestion? [Open an issue on the GitHub issues page](https://github.com/JacobLinCool/cloudflare-email-kit/issues/new).
