@@ -1,6 +1,6 @@
 {
 	"private": true,
-	"name": "router",
+	"name": "example-router",
 	"scripts": {
 		"deploy": "wrangler deploy",
 		"dev": "wrangler dev",
