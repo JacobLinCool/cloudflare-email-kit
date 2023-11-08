@@ -9,7 +9,7 @@ import type {
 
 let _router_counter = 0;
 
-export class EmailRouter implements Middleware {
+export class EmailRouter<In extends Context = Context> implements Middleware<In> {
 	protected rules: EmailRouteRule[] = [];
 
 	constructor(protected config: EmailRouterConfig = { name: `router-${_router_counter++}` }) {}
@@ -40,19 +40,19 @@ export class EmailRouter implements Middleware {
 	 * @returns An object containing the matched route handle or null if no match was found.
 	 */
 	public async process(
-		ctx: Context,
-		next?: () => Promise<void>,
+		ctx: In,
+		next?: (c: In) => Promise<void>,
 	): Promise<EmailRouteHandleResult> {
 		const matched = await this.checkout(ctx.message);
 		if (matched) {
-			await matched.handle(ctx, next || (() => Promise.resolve()));
+			await matched.handle(ctx, (next as never) || (() => Promise.resolve()));
 			return { matched };
 		}
 
 		return { matched: null };
 	}
 
-	public async handle(ctx: Context, next?: () => Promise<void>): Promise<void> {
+	public async handle(ctx: In, next?: (c: In) => Promise<void>): Promise<void> {
 		await this.process(ctx, next);
 	}
 
