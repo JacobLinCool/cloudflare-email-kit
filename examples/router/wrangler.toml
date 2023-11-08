@@ -1,0 +1,15 @@
+name = "email-router-example"
+main = "src/index.ts"
+compatibility_date = "2023-10-30"
+
+[vars]
+# NOTIFICATION_EMAIL = "someone's email address"
+
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "email-kit-example"
+
+[[d1_databases]]
+binding = "D1"
+database_name = "email-kit-example"
+database_id = "1d4a0d08-eac4-4383-9365-acd5d81ebaa8"

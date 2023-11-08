@@ -1,0 +1,27 @@
+name = "email-queue-example"
+main = "src/index.ts"
+compatibility_date = "2023-10-30"
+
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "email-kit-example"
+
+[[d1_databases]]
+binding = "D1"
+database_name = "email-kit-example"
+database_id = "1d4a0d08-eac4-4383-9365-acd5d81ebaa8"
+
+[[queues.consumers]]
+queue = "kit-example-first-email-queue"
+
+[[queues.producers]]
+queue = "kit-example-first-email-queue"
+binding = "FIRST"
+
+[[queues.consumers]]
+queue = "kit-example-second-email-queue"
+max_batch_size = 1
+
+[[queues.producers]]
+queue = "kit-example-second-email-queue"
+binding = "SECOND"

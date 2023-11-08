@@ -12,39 +12,74 @@ Easily handle incoming and outgoing emails on Cloudflare Workers.
 
 ## Example
 
-> Simplified Support Ticket System
+See [examples/router](examples/router/).
 
 ```ts
-import {
-    CATCH_ALL,
-    EmailKit,
-    EmailRouter,
-    EnhancedMessage,
-    REJECT_ALL,
-    SizeGuard,
-    createMimeMessage,
-    mailchannels,
-    respond,
-} from "cloudflare-email";
+import { CATCH_ALL, EmailKit, EmailRouter, REJECT_ALL, SizeGuard, ab2str, createMimeMessage, mailchannels, respond } from "cloudflare-email";
 import { Backup } from "cloudflare-email-backup";
 
 export interface Env {
     R2: R2Bucket;
     D1: D1Database;
+    NOTIFICATION_EMAIL: string;
 }
 
 export default {
     async email(message: ForwardableEmailMessage, env: Env, ctx: ExecutionContext): Promise<void> {
         const router = new EmailRouter()
-            .match(/^hi@csie\.cool$/, hello)
-            .match(/^support@csie\.cool$/, ticket_create(env.D1))
+            // handle auto-sent emails
             .match(
-                /@support\.csie\.cool$/,
-                new EmailRouter()
-                    .match(/^ticket-.+@/, ticket_followup(env.D1))
-                    .match(CATCH_ALL, fallback_handler),
+                (m) => m.isAuto(),
+                async (m) => {
+                    const notification = createMimeMessage();
+                    notification.setSender("admin@test.csie.cool");
+                    notification.setRecipient(env.NOTIFICATION_EMAIL);
+                    notification.setSubject(`Received an auto-generated email from ${m.from}`);
+                    notification.addMessage({
+                        contentType: "text/plain",
+                        data: `Received an auto-generated email from ${m.from} to ${m.to}, as the attachment shows.`,
+                    });
+                    notification.addAttachment({
+                        contentType: "message/rfc822",
+                        data: await m.raw().then((typed) => ab2str(typed.buffer)),
+                        filename: "original.eml",
+                    });
+                    await mailchannels(notification);
+                },
             )
-            // simply reject all other emails
+            // use a sub-router to handle subdomain emails
+            .match(
+                /@test\.csie\.cool$/,
+                new EmailRouter()
+                    .match(/^admin@/, async (message) => {
+                        const msg = respond(message);
+                        msg.addMessage({
+                            contentType: "text/plain",
+                            data: "Hello, I'm the admin!",
+                        });
+                        await message.reply(msg);
+                    })
+                    .match(
+                        // function matchers are also supported, even async ones which query databases
+                        (m) => m.from.length % 2 === 0,
+                        async (message) => {
+                            const msg = respond(message);
+                            msg.addMessage({
+                                contentType: "text/plain",
+                                data: `The length of your email address is even!`,
+                            });
+                            await message.reply(msg);
+                        },
+                    )
+                    .match(CATCH_ALL, async (message) => {
+                        const msg = respond(message);
+                        msg.addMessage({
+                            contentType: "text/plain",
+                            data: "The length of your email address is odd!",
+                        });
+                        await message.reply(msg);
+                    }),
+            )
             .match(...REJECT_ALL("Your email is rejected! :P"));
 
         const kit = new EmailKit()
@@ -62,74 +97,103 @@ export default {
         await kit.process(message);
     },
 };
-
-async function hello(message: EnhancedMessage): Promise<void> {
-    const msg = respond(message);
-    msg.addMessage({
-        contentType: "text/plain",
-        data: `Hello, ${message.from}!`,
-    });
-
-    await message.reply(msg);
-}
-
-function ticket_create(database: D1Database): (message: EnhancedMessage) => Promise<void> {
-    return async (message) => {
-        // generate Ticket ID and store it in the database
-        const ticket_id = await generate_ticket(database, message);
-
-        const msg = createMimeMessage();
-        msg.setSender(`ticket-${ticket_id}@support.csie.cool`);
-        msg.setRecipient(message.from);
-        msg.setSubject(`Re: ${message.headers.get("Subject")}`);
-        msg.addMessage({
-            contentType: "text/plain",
-            data: `Hello, ${message.from}. We have received your request. Your ticket ID is ${ticket_id}.`,
-        });
-
-        await mailchannels(msg);
-    };
-}
-
-function ticket_followup(database: D1Database): (message: EnhancedMessage) => Promise<void> {
-    return async (message) => {
-        const ticket_id = message.to.split("@")[0].split("-")[1];
-
-        // get ticket from database
-        const ticket = await retrieve_ticket(database, ticket_id);
-        if (!ticket) {
-            const msg = respond(message);
-            msg.addMessage({
-                contentType: "text/plain",
-                data: `Sorry, we cannot find ticket #${ticket_id}.`,
-            });
-
-            await message.reply(msg);
-            return;
-        }
-
-        // ... handle ticket followup
-    };
-}
-
-async function fallback_handler(message: EnhancedMessage): Promise<void> {
-    const msg = respond(message);
-    msg.addMessage({
-        contentType: "text/plain",
-        data: "You can create a ticket by sending an email to support@csie.cool",
-    });
-
-    await message.reply(msg);
-}
 ```
 
-> Initialize D1
->
-> ```sql
-> CREATE TABLE `emails` (
->     `id` TEXT PRIMARY KEY NOT NULL,
->     `from` TEXT NOT NULL,
->     `to` TEXT NOT NULL,
->     `key` TEXT
-> );
-> ```
+See [examples/cloudflare-queues](examples/cloudflare-queues/).
+
+```ts
+import { EmailKit, EmailRouter, SizeGuard, respond } from "cloudflare-email";
+import { Backup } from "cloudflare-email-backup";
+import { EmailQueue, EmailQueueMessage } from "cloudflare-email-queue";
+
+export interface Env {
+    R2: R2Bucket;
+    D1: D1Database;
+    FIRST: Queue<EmailQueueMessage>;
+    SECOND: Queue<EmailQueueMessage>;
+}
+
+export default {
+    // receive email, perform size check, and enqueue it to the coresponding queue
+    async email(message: ForwardableEmailMessage, env: Env): Promise<void> {
+        const router = new EmailRouter()
+            .match(/@first\.csie\.cool$/, new EmailQueue(env.FIRST))
+            .match(/@second\.csie\.cool$/, new EmailQueue(env.SECOND));
+
+        const kit = new EmailKit()
+            .use(new SizeGuard(10 * 1024 * 1024))
+            .use(
+                new Backup({
+                    bucket: env.R2,
+                    prefix: "backup",
+                    database: env.D1,
+                    table: "emails",
+                }),
+            )
+            .use(router);
+
+        await kit.process(message);
+    },
+    // checkout the queued messages and process them
+    async queue(batch: MessageBatch<EmailQueueMessage>, env: Env) {
+        const backup = new Backup({
+            bucket: env.R2,
+            prefix: "backup",
+            database: env.D1,
+            table: "emails",
+        });
+
+        // retrieve and re-construct the message
+        const retrieve = async (m: EmailQueueMessage) => {
+            const raw = await backup.retrieve(m.message_id, m.from, m.to);
+            if (!raw) {
+                throw new Error("Cannot retrieve message.");
+            }
+            return EmailQueue.retrieve(m, raw);
+        };
+
+        if (batch.queue === "kit-example-first-email-queue") {
+            for (const m of batch.messages) {
+                const message = await retrieve(m.body);
+
+                await new EmailKit()
+                    .use({
+                        name: "first domain",
+                        async handle(ctx) {
+                            const reply = respond(ctx.message);
+                            reply.addMessage({
+                                contentType: "text/plain",
+                                data: "Greeting from first domain.",
+                            });
+                            await ctx.message.reply(reply);
+                        },
+                    })
+                    .handle({ message });
+
+                m.ack();
+            }
+        } else if (batch.queue === "kit-example-second-email-queue") {
+            for (const m of batch.messages) {
+                const message = await retrieve(m.body);
+
+                await new EmailKit()
+                    .use({
+                        name: "second domain",
+                        async handle(ctx) {
+                            const reply = respond(ctx.message);
+                            reply.addMessage({
+                                contentType: "text/plain",
+                                data: "Greeting from second domain.",
+                            });
+
+                            await ctx.message.reply(reply);
+                        },
+                    })
+                    .handle({ message });
+
+                m.ack();
+            }
+        }
+    },
+};
+```

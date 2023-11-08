@@ -1,0 +1,21 @@
+{
+	"private": true,
+	"name": "example-cloudflare-queues",
+	"scripts": {
+		"deploy": "wrangler deploy",
+		"dev": "wrangler dev",
+		"start": "wrangler dev"
+	},
+	"dependencies": {
+		"cloudflare-email": "workspace:^",
+		"cloudflare-email-backup": "workspace:^",
+		"cloudflare-email-queue": "workspace:^",
+		"debug": "^4.3.4"
+	},
+	"devDependencies": {
+		"@cloudflare/workers-types": "^4.20231025.0",
+		"@types/debug": "^4.1.10",
+		"typescript": "^5.0.4",
+		"wrangler": "^3.0.0"
+	}
+}
