@@ -69,7 +69,11 @@ export class Backup implements Middleware {
 			const table = this.config.table ?? "emails";
 			const db = this.config.database;
 			await db
-				.prepare("INSERT INTO `" + table.replace(/`/g, "") + "` VALUES (?, ?, ?, ?)")
+				.prepare(
+					"INSERT INTO `" +
+						table.replace(/`/g, "") +
+						"` VALUES (?, ?, ?, ?) ON CONFLICT DO NOTHING",
+				)
 				.bind(id, metadata.from, metadata.to, key)
 				.run();
 		}
