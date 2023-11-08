@@ -56,6 +56,10 @@ export class EmailKit extends EmailKitCore {
 					// @ts-expect-error reply not yet typed
 					return message.reply(msg);
 				},
+				isAuto() {
+					const auto = message.headers.get("Auto-Submitted") || "";
+					return ["auto-generated", "auto-replied", "auto-notified"].includes(auto);
+				},
 			},
 		};
 

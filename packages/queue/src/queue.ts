@@ -46,6 +46,10 @@ export class EmailQueue implements Middleware {
 			async reply(mime) {
 				await mailchannels(mime);
 			},
+			isAuto() {
+				const auto = message.headers.get("Auto-Submitted") || "";
+				return ["auto-generated", "auto-replied", "auto-notified"].includes(auto);
+			},
 		};
 
 		return message;

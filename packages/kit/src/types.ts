@@ -35,6 +35,14 @@ export interface EnhancedMessage extends EmailMessage {
 	 * Reply to this email message.
 	 */
 	reply(message: MIMEMessage): Promise<void>;
+
+	/**
+	 * Whether this email message is sent automatically. (Check the `Auto-Submitted` header)
+	 * @returns `true` if the email message is sent automatically, `false` otherwise.
+	 *
+	 * @see https://tools.ietf.org/html/rfc3834
+	 */
+	isAuto(): boolean;
 }
 
 export interface Context {
