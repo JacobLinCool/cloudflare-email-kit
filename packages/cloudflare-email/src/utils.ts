@@ -3,6 +3,8 @@ import debug from "debug";
 import type { MIMEMessage } from "mimetext";
 import { createMimeMessage } from "mimetext";
 
+const log = debug("cloudflare-email:utils");
+
 /**
  * Creates a reply message based on the given message.
  * @param message - The message to reply to.
@@ -26,127 +28,61 @@ export function respond(message: EnhancedMessage): MIMEMessage {
 }
 
 /**
+ * Converts an ArrayBuffer to a string.
+ * @param buffer - The ArrayBuffer to convert.
+ * @returns The converted string.
+ */
+export function ab2str(buffer: ArrayBuffer) {
+	log("Converting ArrayBuffer to string", buffer.byteLength);
+	const bytes = new Uint8Array(buffer);
+	let binary = "";
+	for (let i = 0; i < bytes.length; i++) {
+		binary += String.fromCharCode(bytes[i]);
+	}
+	return binary;
+}
+
+/**
  * Converts an ArrayBuffer to a base64 string.
  * @param buffer - The ArrayBuffer to be converted.
  * @returns The base64 string representation of the ArrayBuffer.
  */
 export function ab2b64(buffer: ArrayBuffer) {
-	return btoa(String.fromCharCode(...new Uint8Array(buffer)));
+	log("Converting ArrayBuffer to base64", buffer.byteLength);
+	return btoa(ab2str(buffer));
 }
 
-/**
- * Sends an email message using the MailChannels API.
- * @param message The {@link MIMEMessage} to send.
- * @throws An error if there are no recipients or sender found, or if the API request fails.
- */
-export async function mailchannels(message: MIMEMessage): Promise<void> {
-	const log = debug("mailchannels");
-	let recipients = message.getRecipients();
-	if (!recipients) {
-		throw new Error("No recipients found.");
-	}
-	if (!Array.isArray(recipients)) {
-		recipients = [recipients];
-	}
+export function ab27bit(buffer: ArrayBuffer) {
+	log("Converting ArrayBuffer to 7bit", buffer.byteLength);
 
-	const sender = message.getSender();
-	if (!sender) {
-		throw new Error("No sender found.");
-	}
+	const bytes = new Uint8Array(buffer);
+	let bit_idx = 0;
 
-	const personalizations = recipients
-		.map((box) => {
-			// Skip MailChannels' own addresses
-			if (box.addr.includes("@mailchannels.net")) {
-				return null;
-			}
+	// Calculate the new length: every char can only contain 7 bytes of data
+	const output_length = Math.ceil((bytes.length * 8) / 7);
+	let result = "";
 
-			if (box.type === "To") {
-				return { to: [{ email: box.addr, name: box.name }] };
-			} else if (box.type === "Cc") {
-				return { cc: [{ email: box.addr, name: box.name }] };
-			} else if (box.type === "Bcc") {
-				return { bcc: [{ email: box.addr, name: box.name }] };
-			}
+	for (let output_idx = 0; output_idx < output_length; output_idx++) {
+		// Read 7 bytes from the input
+		let byte_idx = Math.floor(bit_idx / 8);
+		let bit_offset = bit_idx % 8;
+		bit_idx += 7;
 
-			return null;
-		})
-		.filter((it) => it !== null);
-	if (personalizations.length === 0) {
-		throw new Error("No recipients found.");
-	}
-
-	const content: { type: string; value: string }[] = [];
-
-	const text = message.getMessageByType("text/plain");
-	if (text) {
-		content.push({ type: "text/plain", value: text.data });
-	}
-
-	const html = message.getMessageByType("text/html");
-	if (html) {
-		content.push({ type: "text/html", value: html.data });
-	}
-
-	for (const attachment of message.getAttachments()) {
-		const type = attachment.getHeader("Content-Type");
-		if (typeof type !== "string") {
-			continue;
+		// 0: >> 1
+		// 1: --
+		// 2: << 1
+		// 3: << 2
+		// 4: << 3
+		// 5: << 4
+		// 6: << 5
+		// 7: << 6
+		let data = bit_offset === 0 ? bytes[byte_idx] >> 1 : bytes[byte_idx] << (bit_offset - 1);
+		if (bit_offset > 1) {
+			data |= bytes[byte_idx + 1] >> (9 - bit_offset);
 		}
 
-		content.push({ type, value: attachment.data });
+		result += String.fromCharCode(data & 0x7f);
 	}
 
-	const reserved = [
-		"received",
-		"dkim-signature",
-		"content-type",
-		"content-transfer-encoding",
-		"to",
-		"from",
-		"subject",
-		"reply-to",
-		"cc",
-		"bcc",
-	];
-	const headers = message.headers.fields.reduce(
-		(acc, field) => {
-			if (typeof field.name === "string" && typeof field.value === "string") {
-				if (reserved.includes(field.name.toLowerCase())) {
-					return acc;
-				}
-
-				acc[field.name] = field.value;
-			}
-			return acc;
-		},
-		{} as Record<string, string>,
-	);
-
-	const payload = {
-		personalizations,
-		from: {
-			email: sender.addr,
-			name: sender.name,
-		},
-		headers,
-		subject: message.getSubject() || "",
-		content,
-	};
-	log(payload);
-
-	const req = new Request("https://api.mailchannels.net/tx/v1/send", {
-		method: "POST",
-		headers: {
-			"content-type": "application/json",
-		},
-		body: JSON.stringify(payload),
-	});
-
-	const res = await fetch(req);
-	if (!res.ok) {
-		throw new Error(`Failed to send email: ${res.status} ${await res.text()}`);
-	}
-
-	log("Email sent successfully.");
+	return result;
 }

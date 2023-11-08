@@ -7,7 +7,7 @@ export class SizeGuard implements Middleware {
 
 	async handle(ctx: Context, next: () => Promise<void>): Promise<void> {
 		if (ctx.message.size > this.max_size) {
-			ctx.message.reject(`Message size too large: ${ctx.message.size} > ${this.max_size}`);
+			ctx.message.reject?.(`Message size too large: ${ctx.message.size} > ${this.max_size}`);
 		} else {
 			await next();
 		}

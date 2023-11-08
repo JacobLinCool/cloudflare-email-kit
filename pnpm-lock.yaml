@@ -53,6 +53,56 @@ importers:
                 specifier: ^0.34.6
                 version: 0.34.6(@vitest/ui@0.34.6)
 
+    examples/cloudflare-queues:
+        dependencies:
+            cloudflare-email:
+                specifier: workspace:^
+                version: link:../../packages/cloudflare-email
+            cloudflare-email-backup:
+                specifier: workspace:^
+                version: link:../../packages/backup
+            cloudflare-email-queue:
+                specifier: workspace:^
+                version: link:../../packages/queue
+            debug:
+                specifier: ^4.3.4
+                version: 4.3.4
+        devDependencies:
+            "@cloudflare/workers-types":
+                specifier: ^4.20231025.0
+                version: 4.20231025.0
+            "@types/debug":
+                specifier: ^4.1.10
+                version: 4.1.10
+            typescript:
+                specifier: ^5.0.4
+                version: 5.2.2
+            wrangler:
+                specifier: ^3.0.0
+                version: 3.15.0
+
+    examples/router:
+        dependencies:
+            cloudflare-email:
+                specifier: workspace:^
+                version: link:../../packages/cloudflare-email
+            debug:
+                specifier: ^4.3.4
+                version: 4.3.4
+        devDependencies:
+            "@cloudflare/workers-types":
+                specifier: ^4.20231025.0
+                version: 4.20231025.0
+            "@types/debug":
+                specifier: ^4.1.10
+                version: 4.1.10
+            typescript:
+                specifier: ^5.0.4
+                version: 5.2.2
+            wrangler:
+                specifier: ^3.0.0
+                version: 3.15.0
+
     examples/simple:
         dependencies:
             cloudflare-email:
@@ -111,6 +161,9 @@ importers:
             cloudflare-email-kit:
                 specifier: workspace:^
                 version: link:../kit
+            cloudflare-email-mailchannels:
+                specifier: workspace:^
+                version: link:../mailchannels
             cloudflare-email-router:
                 specifier: workspace:^
                 version: link:../router
@@ -148,6 +201,68 @@ importers:
             mimetext:
                 specifier: ^3.0.16
                 version: 3.0.16
+            tsup:
+                specifier: ^7.2.0
+                version: 7.2.0(typescript@5.2.2)
+            typedoc:
+                specifier: ^0.25.3
+                version: 0.25.3(typescript@5.2.2)
+            typescript:
+                specifier: ^5.2.2
+                version: 5.2.2
+            wrangler:
+                specifier: ^3.15.0
+                version: 3.15.0
+
+    packages/mailchannels:
+        dependencies:
+            debug:
+                specifier: ^4.3.4
+                version: 4.3.4
+            mimetext:
+                specifier: ^3.0.0
+                version: 3.0.16
+        devDependencies:
+            "@cloudflare/workers-types":
+                specifier: ^4.20231025.0
+                version: 4.20231025.0
+            "@types/debug":
+                specifier: ^4.1.10
+                version: 4.1.10
+            tsup:
+                specifier: ^7.2.0
+                version: 7.2.0(typescript@5.2.2)
+            typedoc:
+                specifier: ^0.25.3
+                version: 0.25.3(typescript@5.2.2)
+            typescript:
+                specifier: ^5.2.2
+                version: 5.2.2
+            wrangler:
+                specifier: ^3.15.0
+                version: 3.15.0
+
+    packages/queue:
+        dependencies:
+            cloudflare-email:
+                specifier: "*"
+                version: link:../cloudflare-email
+            cloudflare-email-kit:
+                specifier: workspace:^
+                version: link:../kit
+            cloudflare-email-mailchannels:
+                specifier: workspace:^
+                version: link:../mailchannels
+            debug:
+                specifier: ^4.3.4
+                version: 4.3.4
+        devDependencies:
+            "@cloudflare/workers-types":
+                specifier: ^4.20231025.0
+                version: 4.20231025.0
+            "@types/debug":
+                specifier: ^4.1.10
+                version: 4.1.10
             tsup:
                 specifier: ^7.2.0
                 version: 7.2.0(typescript@5.2.2)
