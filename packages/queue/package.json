@@ -1,7 +1,7 @@
 {
 	"name": "cloudflare-email-queue",
 	"description": "Integrate EmailKit with Cloudflare Queues for Efficient Email Handling at Scale.",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"author": "JacobLinCool <jacoblincool@gmail.com> (https://jacoblin.cool)",
 	"license": "MIT",
 	"keywords": [

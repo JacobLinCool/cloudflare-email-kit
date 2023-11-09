@@ -1,0 +1,7 @@
+# cloudflare-email-parser
+
+## 0.0.1
+
+### Patch Changes
+
+-   [`e2f1a6f`](https://github.com/JacobLinCool/cloudflare-email-kit/commit/e2f1a6f78be3aee3500bf79c1f389d7c50e47521) Thanks [@JacobLinCool](https://github.com/JacobLinCool)! - Fix the type re-export of postal-mime
