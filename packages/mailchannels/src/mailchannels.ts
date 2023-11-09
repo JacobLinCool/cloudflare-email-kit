@@ -106,12 +106,25 @@ export async function mailchannels(message: MIMEMessage, dry = _dryrun): Promise
 		name: sender.name,
 	};
 
+	const reply_to_raw = message.headers.get("Reply-To");
+	const reply_to = reply_to_raw
+		? typeof reply_to_raw === "string"
+			? {
+					email: reply_to_raw,
+			  }
+			: {
+					name: reply_to_raw.name,
+					email: reply_to_raw.addr,
+			  }
+		: undefined;
+
 	const payload = {
 		personalizations,
 		from,
 		headers,
 		subject: message.getSubject() || "",
 		content,
+		reply_to,
 	};
 	log(personalizations, from, headers);
 
