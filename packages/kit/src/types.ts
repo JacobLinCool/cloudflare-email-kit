@@ -57,6 +57,15 @@ export interface Middleware<In extends Context = Context, Out extends Context = 
 	): Promise<void> | void;
 }
 
-export type MiddlewareOutput<M extends Middleware> = M extends Middleware<Context, infer Out>
+export type MiddlewareOrHandle<In extends Context = Context, Out extends Context = In> =
+	| Middleware<In, Out>
+	| Middleware<In, Out>["handle"];
+
+export type MiddlewareOutput<M extends Middleware | Middleware["handle"]> = M extends Middleware<
+	Context,
+	infer Out
+>
+	? Out
+	: M extends Middleware<Context, infer Out>["handle"]
 	? Out
 	: never;

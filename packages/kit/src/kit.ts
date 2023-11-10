@@ -1,14 +1,31 @@
 import { ForwardableEmailMessage, ReadableStream } from "@cloudflare/workers-types";
 import { MIMEMessage } from "mimetext";
-import { Context, Middleware, MiddlewareOutput } from "./types";
+import { Context, Middleware, MiddlewareOrHandle, MiddlewareOutput } from "./types";
 
 export class EmailKitCore<Last extends Context> {
 	protected middlewares: Middleware[] = [];
 
 	use<M extends Middleware<Context, any>>(
 		middleware: M extends Middleware<infer In> ? (Last extends In ? M : never) : never,
+	): EmailKitCore<Last & MiddlewareOutput<M>>;
+	use<F extends Middleware<Context, any>["handle"]>(
+		middleware: F extends Middleware<infer In>["handle"]
+			? Last extends In
+				? F
+				: never
+			: never,
+	): EmailKitCore<Last & MiddlewareOutput<F>>;
+	use<M extends MiddlewareOrHandle<Context, any>>(
+		middleware: M extends MiddlewareOrHandle<infer In> ? (Last extends In ? M : never) : never,
 	): EmailKitCore<Last & MiddlewareOutput<M>> {
-		this.middlewares.push(middleware);
+		if (typeof middleware === "function") {
+			this.middlewares.push({
+				name: middleware.name,
+				handle: middleware,
+			});
+		} else {
+			this.middlewares.push(middleware);
+		}
 		return this;
 	}
 
@@ -34,6 +51,16 @@ export class EmailKitCore<Last extends Context> {
 }
 
 export class EmailKit<Last extends Context> extends EmailKitCore<Last> {
+	use<M extends Middleware<Context, any>>(
+		middleware: M extends Middleware<infer In> ? (Last extends In ? M : never) : never,
+	): EmailKit<Last & MiddlewareOutput<M>>;
+	use<F extends Middleware<Context, any>["handle"]>(
+		middleware: F extends Middleware<infer In>["handle"]
+			? Last extends In
+				? F
+				: never
+			: never,
+	): EmailKit<Last & MiddlewareOutput<F>>;
 	use<M extends Middleware<Context, any>>(
 		middleware: M extends Middleware<infer In> ? (Last extends In ? M : never) : never,
 	): EmailKit<Last & MiddlewareOutput<M>> {
