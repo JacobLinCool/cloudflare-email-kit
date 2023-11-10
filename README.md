@@ -222,16 +222,13 @@ export default {
                 const message = await retrieve(m.body);
 
                 await new EmailKit()
-                    .use({
-                        name: "first domain",
-                        async handle(ctx) {
-                            const reply = respond(ctx.message);
-                            reply.addMessage({
-                                contentType: "text/plain",
-                                data: "Greeting from first domain.",
-                            });
-                            await ctx.message.reply(reply);
-                        },
+                    .use(async (ctx) => {
+                        const reply = respond(ctx.message);
+                        reply.addMessage({
+                            contentType: "text/plain",
+                            data: "Greeting from first domain.",
+                        });
+                        await ctx.message.reply(reply);
                     })
                     .handle({ message });
 
@@ -242,17 +239,14 @@ export default {
                 const message = await retrieve(m.body);
 
                 await new EmailKit()
-                    .use({
-                        name: "second domain",
-                        async handle(ctx) {
-                            const reply = respond(ctx.message);
-                            reply.addMessage({
-                                contentType: "text/plain",
-                                data: "Greeting from second domain.",
-                            });
+                    .use(async (ctx) => {
+                        const reply = respond(ctx.message);
+                        reply.addMessage({
+                            contentType: "text/plain",
+                            data: "Greeting from second domain.",
+                        });
 
-                            await ctx.message.reply(reply);
-                        },
+                        await ctx.message.reply(reply);
                     })
                     .handle({ message });
 
