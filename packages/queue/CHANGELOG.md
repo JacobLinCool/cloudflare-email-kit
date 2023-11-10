@@ -1,5 +1,13 @@
 # cloudflare-email-queue
 
+## 0.0.5
+
+### Patch Changes
+
+-   Updated dependencies [[`b5393ef`](https://github.com/JacobLinCool/cloudflare-email-kit/commit/b5393ef95ecf1170154d8f42e5992f218f593a6e)]:
+    -   cloudflare-email-kit@0.0.5
+    -   cloudflare-email@0.0.7
+
 ## 0.0.4
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # cloudflare-email-kit
 
+## 0.0.5
+
+### Patch Changes
+
+-   [`b5393ef`](https://github.com/JacobLinCool/cloudflare-email-kit/commit/b5393ef95ecf1170154d8f42e5992f218f593a6e) Thanks [@JacobLinCool](https://github.com/JacobLinCool)! - Support simple function middleware
+
 ## 0.0.4
 
 ### Patch Changes
