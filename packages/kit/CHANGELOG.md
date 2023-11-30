@@ -1,5 +1,11 @@
 # cloudflare-email-kit
 
+## 0.0.6
+
+### Patch Changes
+
+-   [`6579e32`](https://github.com/JacobLinCool/cloudflare-email-kit/commit/6579e32e017d0981edbcdf18cf6b2923dfd74c19) Thanks [@JacobLinCool](https://github.com/JacobLinCool)! - EmailKit is now satisfied with Middleware interface
+
 ## 0.0.5
 
 ### Patch Changes
