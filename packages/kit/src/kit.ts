@@ -2,7 +2,9 @@ import { ForwardableEmailMessage, ReadableStream } from "@cloudflare/workers-typ
 import { MIMEMessage } from "mimetext";
 import { Context, Middleware, MiddlewareOrHandle, MiddlewareOutput } from "./types";
 
-export class EmailKitCore<Last extends Context> {
+export class EmailKitCore<Last extends Context> implements Middleware<Last> {
+	name = "EmailKit";
+
 	protected middlewares: Middleware[] = [];
 
 	use<M extends Middleware<Context, any>>(
