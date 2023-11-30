@@ -28,6 +28,16 @@ export function respond(message: EnhancedMessage): MIMEMessage {
 }
 
 /**
+ * Creates a mailbox with the specified address.
+ * (tracking: https://github.com/muratgozel/MIMEText/issues/45)
+ * @param address - The email address of the mailbox.
+ * @returns The mailbox.
+ */
+export function mailbox(address: string) {
+	return createMimeMessage().setSender(address);
+}
+
+/**
  * Converts an ArrayBuffer to a string.
  * @param buffer - The ArrayBuffer to convert.
  * @returns The converted string.

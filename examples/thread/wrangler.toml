@@ -1,0 +1,9 @@
+name = "email-thread-example"
+main = "src/index.ts"
+compatibility_date = "2023-10-30"
+workers_dev = false
+
+[[d1_databases]]
+binding = "D1"
+database_name = "email-kit-example"
+database_id = "1d4a0d08-eac4-4383-9365-acd5d81ebaa8"
