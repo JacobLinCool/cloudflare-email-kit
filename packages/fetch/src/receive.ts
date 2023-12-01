@@ -7,12 +7,19 @@ export async function receive(req: Request) {
 	const to = req.headers.get("X-Envelope-To") || "";
 	const size = Number(req.headers.get("X-Message-Size")) || 0;
 
+	let _raw: Promise<Uint8Array> | undefined;
+
 	const message: EnhancedMessage = {
 		from,
 		to,
 		size,
 		headers: req.headers,
-		raw: () => req.arrayBuffer().then((buffer) => new Uint8Array(buffer)),
+		raw: () => {
+			if (!_raw) {
+				_raw = req.arrayBuffer().then((buffer) => new Uint8Array(buffer));
+			}
+			return _raw;
+		},
 		async forward(to, headers) {
 			throw new Error("Not Implemented Yet.");
 		},
