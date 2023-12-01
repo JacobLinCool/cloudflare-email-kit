@@ -7,10 +7,6 @@ export async function receive(req: Request) {
 	const to = req.headers.get("X-Envelope-To") || "";
 	const size = Number(req.headers.get("X-Message-Size")) || 0;
 
-	req.headers.delete("X-Envelope-From");
-	req.headers.delete("X-Envelope-To");
-	req.headers.delete("X-Message-Size");
-
 	const message: EnhancedMessage = {
 		from,
 		to,
