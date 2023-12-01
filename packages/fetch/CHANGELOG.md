@@ -1,5 +1,11 @@
 # cloudflare-email-fetch
 
+## 0.0.3
+
+### Patch Changes
+
+-   [`e8baa56`](https://github.com/JacobLinCool/cloudflare-email-kit/commit/e8baa5649ff1e35f421e685a9dc51911ba04d3c9) Thanks [@JacobLinCool](https://github.com/JacobLinCool)! - Fix body reuse error
+
 ## 0.0.2
 
 ### Patch Changes
