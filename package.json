@@ -11,7 +11,7 @@
 		"build:docs": "typedoc --out docs"
 	},
 	"devDependencies": {
-		"@changesets/changelog-github": "^0.4.8",
+		"@changesets/changelog-github": "^0.5.0",
 		"@changesets/cli": "^2.26.2",
 		"@types/node": "^20.8.10",
 		"@vitest/coverage-v8": "^0.34.6",
