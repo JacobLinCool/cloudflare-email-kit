@@ -40,5 +40,5 @@
 		"url": "https://github.com/JacobLinCool/cloudflare-email-kit/issues"
 	},
 	"homepage": "https://jacoblincool.github.io/cloudflare-email-kit",
-	"packageManager": "pnpm@8.10.2"
+	"packageManager": "pnpm@8.15.3"
 }
