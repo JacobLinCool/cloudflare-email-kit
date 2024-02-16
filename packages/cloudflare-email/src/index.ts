@@ -1,6 +1,6 @@
-export * from "./utils";
+export * from "./utils.js";
 
-export * from "./middleware/size-guard";
+export * from "./middleware/size-guard.js";
 
 export * from "cloudflare-email-kit";
 export * from "cloudflare-email-mailchannels";
