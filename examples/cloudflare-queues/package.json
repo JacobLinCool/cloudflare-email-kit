@@ -13,9 +13,9 @@
 		"debug": "^4.3.4"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "^4.20231025.0",
-		"@types/debug": "^4.1.10",
-		"typescript": "^5.0.4",
-		"wrangler": "^3.0.0"
+		"@cloudflare/workers-types": "^4.20240208.0",
+		"@types/debug": "^4.1.12",
+		"typescript": "^5.3.3",
+		"wrangler": "^3.28.2"
 	}
 }
