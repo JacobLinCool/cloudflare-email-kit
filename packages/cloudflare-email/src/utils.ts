@@ -1,7 +1,6 @@
 import type { EnhancedMessage } from "cloudflare-email-kit";
 import debug from "debug";
-import type { MIMEMessage } from "mimetext";
-import { createMimeMessage } from "mimetext/browser";
+import { createMimeMessage, MIMEMessage } from "mimetext/browser";
 
 const log = debug("cloudflare-email:utils");
 

@@ -1,5 +1,5 @@
 import debug from "debug";
-import type { MIMEMessage } from "mimetext";
+import type { MIMEMessage } from "mimetext/browser";
 
 let _dryrun = false;
 
@@ -111,11 +111,11 @@ export async function mailchannels(message: MIMEMessage, dry = _dryrun): Promise
 		? typeof reply_to_raw === "string"
 			? {
 					email: reply_to_raw,
-			  }
+				}
 			: {
 					name: reply_to_raw.name,
 					email: reply_to_raw.addr,
-			  }
+				}
 		: undefined;
 
 	const payload = {

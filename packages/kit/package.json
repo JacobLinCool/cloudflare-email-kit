@@ -32,8 +32,8 @@
 		"typescript": "^5.3.3",
 		"wrangler": "^3.28.2"
 	},
-	"peerDependencies": {
-		"mimetext": "*"
+	"dependencies": {
+		"mimetext": "^3.0.21"
 	},
 	"repository": {
 		"type": "git",

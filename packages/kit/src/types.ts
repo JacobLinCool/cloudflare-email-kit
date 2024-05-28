@@ -1,5 +1,5 @@
 import type { EmailMessage, Headers } from "@cloudflare/workers-types";
-import { MIMEMessage } from "mimetext";
+import { MIMEMessage } from "mimetext/browser";
 
 export interface EnhancedMessage extends EmailMessage {
 	/**
@@ -61,11 +61,9 @@ export type MiddlewareOrHandle<In extends Context = Context, Out extends Context
 	| Middleware<In, Out>
 	| Middleware<In, Out>["handle"];
 
-export type MiddlewareOutput<M extends Middleware | Middleware["handle"]> = M extends Middleware<
-	Context,
-	infer Out
->
-	? Out
-	: M extends Middleware<Context, infer Out>["handle"]
-	? Out
-	: never;
+export type MiddlewareOutput<M extends Middleware | Middleware["handle"]> =
+	M extends Middleware<Context, infer Out>
+		? Out
+		: M extends Middleware<Context, infer Out>["handle"]
+			? Out
+			: never;
