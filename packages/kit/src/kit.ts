@@ -1,6 +1,6 @@
 import { ForwardableEmailMessage, ReadableStream } from "@cloudflare/workers-types";
-import { MIMEMessage } from "mimetext";
-import { Context, Middleware, MiddlewareOrHandle, MiddlewareOutput } from "./types";
+import { MIMEMessage } from "mimetext/browser";
+import { Context, Middleware, MiddlewareOrHandle, MiddlewareOutput } from "./types.js";
 
 export class EmailKitCore<Last extends Context> implements Middleware<Last> {
 	name = "EmailKit";

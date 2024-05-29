@@ -37,7 +37,7 @@
 		"cloudflare-email-mailchannels": "workspace:^",
 		"cloudflare-email-router": "workspace:^",
 		"debug": "^4.3.4",
-		"mimetext": "^3.0.21"
+		"mimetext": "^3.0.24"
 	},
 	"repository": {
 		"type": "git",

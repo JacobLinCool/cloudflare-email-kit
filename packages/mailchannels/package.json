@@ -27,7 +27,7 @@
 	},
 	"dependencies": {
 		"debug": "^4.3.4",
-		"mimetext": "^3.0.0"
+		"mimetext": "^3.0.24"
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.20240208.0",

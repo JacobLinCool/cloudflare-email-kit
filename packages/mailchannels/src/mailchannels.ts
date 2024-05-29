@@ -1,5 +1,5 @@
 import debug from "debug";
-import type { MIMEMessage } from "mimetext/browser";
+import { Mailbox, MIMEMessage } from "mimetext/browser";
 
 let _dryrun = false;
 
@@ -107,16 +107,15 @@ export async function mailchannels(message: MIMEMessage, dry = _dryrun): Promise
 	};
 
 	const reply_to_raw = message.headers.get("Reply-To");
-	const reply_to = reply_to_raw
-		? typeof reply_to_raw === "string"
-			? {
-					email: reply_to_raw,
-				}
-			: {
-					name: reply_to_raw.name,
-					email: reply_to_raw.addr,
-				}
-		: undefined;
+	const reply_to: { name?: string; email: string }[] = [];
+
+	if (typeof reply_to_raw === "string") reply_to.push({ email: reply_to_raw });
+	else if (reply_to_raw instanceof Mailbox)
+		reply_to.push({ name: reply_to_raw.name, email: reply_to_raw.addr });
+	else if (reply_to_raw instanceof Array)
+		reply_to_raw.forEach((reply) => {
+			reply_to.push({ name: reply.name, email: reply.addr });
+		});
 
 	const payload = {
 		personalizations,

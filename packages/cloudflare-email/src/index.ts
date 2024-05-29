@@ -7,4 +7,4 @@ export * from "cloudflare-email-mailchannels";
 export * from "cloudflare-email-router";
 
 /** @license MIT (https://github.com/muratgozel/MIMEText) */
-export * from "mimetext";
+export * from "mimetext/browser";
