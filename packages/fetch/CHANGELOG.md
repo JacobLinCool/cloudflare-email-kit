@@ -1,5 +1,14 @@
 # cloudflare-email-fetch
 
+## 1.0.0
+
+### Patch Changes
+
+-   Updated dependencies [[`db1552c`](https://github.com/JacobLinCool/cloudflare-email-kit/commit/db1552c763413440998a9089de48c8c94404c89e)]:
+    -   cloudflare-email@0.1.0
+    -   cloudflare-email-mailchannels@0.1.0
+    -   cloudflare-email-kit@0.1.0
+
 ## 0.0.3
 
 ### Patch Changes

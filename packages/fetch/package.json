@@ -1,7 +1,7 @@
 {
 	"name": "cloudflare-email-fetch",
 	"description": "Pass over email message with service binding or normal http endpoint.",
-	"version": "0.0.3",
+	"version": "1.0.0",
 	"author": "JacobLinCool <jacoblincool@gmail.com> (https://jacoblin.cool)",
 	"license": "MIT",
 	"keywords": [
