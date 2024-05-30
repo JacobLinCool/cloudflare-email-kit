@@ -1,7 +1,7 @@
 {
 	"name": "cloudflare-email-mailchannels",
 	"description": "Send emails via Mailchannels on Cloudflare Workers.",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"author": "JacobLinCool <jacoblincool@gmail.com> (https://jacoblin.cool)",
 	"license": "MIT",
 	"keywords": [
