@@ -26,7 +26,8 @@
 		"build:docs": "typedoc --out docs src"
 	},
 	"dependencies": {
-		"debug": "^4.3.4"
+		"debug": "^4.3.4",
+		"mimetext": "^3.0.24"
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.20240208.0",
@@ -35,9 +36,6 @@
 		"typedoc": "^0.25.8",
 		"typescript": "^5.3.3",
 		"wrangler": "^3.28.2"
-	},
-	"peerDependencies": {
-		"mimetext": "^3.0.0"
 	},
 	"repository": {
 		"type": "git",

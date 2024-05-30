@@ -26,14 +26,14 @@
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.20240208.0",
-		"mimetext": "^3.0.21",
+		"mimetext": "^3.0.24",
 		"tsup": "^8.0.2",
 		"typedoc": "^0.25.8",
 		"typescript": "^5.3.3",
 		"wrangler": "^3.28.2"
 	},
-	"peerDependencies": {
-		"mimetext": "*"
+	"dependencies": {
+		"mimetext": "^3.0.21"
 	},
 	"repository": {
 		"type": "git",

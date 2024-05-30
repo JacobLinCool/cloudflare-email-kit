@@ -1,7 +1,6 @@
 import type { EnhancedMessage } from "cloudflare-email-kit";
 import debug from "debug";
-import type { MIMEMessage } from "mimetext";
-import { createMimeMessage } from "mimetext/browser";
+import { createMimeMessage, Mailbox, MIMEMessage } from "mimetext/browser";
 
 const log = debug("cloudflare-email:utils");
 
@@ -13,7 +12,7 @@ const log = debug("cloudflare-email:utils");
 export function respond(message: EnhancedMessage): MIMEMessage {
 	const msg = createMimeMessage();
 
-	msg.setHeader("In-Reply-To", message.headers.get("Message-ID"));
+	msg.setHeader("In-Reply-To", message.headers.get("Message-ID") ?? "");
 	msg.setSender(message.to);
 	msg.setRecipient(message.from);
 
@@ -33,7 +32,7 @@ export function respond(message: EnhancedMessage): MIMEMessage {
  * @param address - The email address of the mailbox.
  * @returns The mailbox.
  */
-export function mailbox(address: string) {
+export function mailbox(address: string): Mailbox {
 	return createMimeMessage().setSender(address);
 }
 
